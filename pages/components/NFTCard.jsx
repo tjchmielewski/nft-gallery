@@ -17,7 +17,7 @@ const NFTCard = ({ nft }) => {
             </div>
 
             <div className="flex justify-center mb-1">
-                <a className="py-2 px-2 bg-blue-500 w-1/2 text-center rounded-m text-white cursor-pointer" target='_blank' href={`https://etherscan.io/token/${nft.contract.address}`}>View on etherscan</a>
+                <a className="py-2 px-2 bg-blue-500 w-1/2 text-center rounded-m text-white cursor-po" target='_blank' href={`https://etherscan.io/token/${nft.contract.address}`}>View on etherscan</a>
             </div>
         </div>
 
@@ -25,4 +25,4 @@ const NFTCard = ({ nft }) => {
     )
 }
 
-export default NFTCard;
+export default NFTCard
