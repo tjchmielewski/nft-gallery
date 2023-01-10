@@ -1,11 +1,10 @@
-// import {describe, expect, test} from '@jest/globals';
 require("dotenv").config();
 
 let nfts;
 
 // Creator of Bored Ape Yacht Club
 const wallet = "0xA858DDc0445d8131daC4d1DE01f834ffcbA52Ef1";
-// Collection Bored Apes By Famous Artists
+
 const collection = "0x22c36BfdCef207F9c0CC941936eff94D4246d14A".toLowerCase();
 
 const api_key = process.env.API_KEY;
