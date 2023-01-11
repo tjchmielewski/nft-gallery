@@ -30,14 +30,14 @@ const NFTCard = ({ nft }) => {
       };
 
     return (
-        <div className="flex flex-col bg-[#222528] border-transparent border-2 hover:border-[#FEDA04] transform transition duration-700 ease-out ">
-            <div className="rounded-md">
-                <img className="object-contain h-128 w-full rounded-t-md" src={image ? image : placeholderImage} alt="cover image"
+        <div className="flex flex-col bg-[#222528] border-transparent rounded-t-3xl border-4 hover:border-[#FEDA04] transform transition duration-700 ease-out ">
+            <div className="">
+                <img className="object-contain h-128 w-full" src={image ? image : placeholderImage} alt="cover image"
                 onError={onImageError}></img>
             </div>
-            <div className="flex flex-col y-gap-2 px-2 py-3 rounded-b-md ">
+            <div className="flex flex-col y-gap-2 px-2 py-3">
                 <div className="">
-                    <h2 className="text-xl font-bold text-white">{ nft.title ? nft.title : "No Title"}</h2>
+                    <h2 className="text-xl font-bold text-white">{ nft.title ? nft.title : `#${nft.id.tokenId.substr(nft.id.tokenId.length - 4)}`}</h2>
                     <p className="text-[#FEDA04] font-medium">Id: {nft.id.tokenId.substr(nft.id.tokenId.length - 4)}</p>
                     <div className="flex items-center">
                         <p className="text-[#A7A8A9]" >{`
