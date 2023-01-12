@@ -20,30 +20,30 @@ function Fetch({setNFTs}) {
   return (
     <>
       <div className={styles.container}>
-          <div className={styles.flex}>
-            <div>
-              <p>Wallet address</p>
-              <input 
-                disabled={fetchForCollection} 
-                onChange={(e)=>{setWalletAddress(e.target.value)}} 
-                value={wallet} 
-                type={"text"} 
-                placeholder="Add your wallet address"></input>
-            </div>
-            <div>
-              <p>Collection address</p>
-              <input
-                onChange={(e)=>{setCollectionAddress(e.target.value)}} 
-                value={collection} 
-                type={"text"} 
-                placeholder="Add the collection address"></input>
-            </div>
+        <div className={styles.flex}>
+          <div>
+            <p>Wallet address</p>
+            <input 
+              disabled={fetchForCollection} 
+              onChange={(e)=>{setWalletAddress(e.target.value)}} 
+              value={wallet} 
+              type={"text"} 
+              placeholder="Add your wallet address"></input>
           </div>
-        
-          <label>
-            <input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}/>Fetch for collection
-          </label>
-          <button onClick={handleClick}>Let's go!</button>
+          <div>
+            <p>Collection address</p>
+            <input
+              onChange={(e)=>{setCollectionAddress(e.target.value)}} 
+              value={collection} 
+              type={"text"} 
+              placeholder="Add the collection address"></input>
+          </div>
+        </div>
+      
+        <label>
+          <input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}/>Fetch for collection
+        </label>
+        <button onClick={handleClick}>Let's go!</button>
       </div>
     </>
   )
