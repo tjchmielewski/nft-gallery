@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
 import styles from "../styles/Fetch.module.css";
 import { fetchNFTs, fetchNFTsForCollection } from '../utils/FetchNFT'
+import Modal from './Modal';
 
 function Fetch({setNFTs}) {
   const [wallet, setWalletAddress] = useState("");
   const [collection, setCollectionAddress] = useState("");
   const [fetchForCollection, setFetchForCollection] = useState(false)
+
+  const [isOpen, setOpen] = useState(false);
 
   const handleClick = async () => {
     let nfts;
@@ -43,7 +46,11 @@ function Fetch({setNFTs}) {
         <label>
           <input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}/>Fetch for collection
         </label>
-        <button onClick={handleClick}>Let's go!</button>
+        <div className={styles.flex}>
+          <button className={styles.button} onClick={() => setOpen(!isOpen)}>Connect Wallet</button>
+          <button className={styles.button} onClick={handleClick}>Fetch NFTs</button>
+        </div>
+        {isOpen && <Modal close={() => {setOpen(false)}}/>}
       </div>
     </>
   )
