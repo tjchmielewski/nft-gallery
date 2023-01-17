@@ -1,13 +1,20 @@
 import React, {useState} from 'react'
 import styles from "../styles/Modal.module.css";
-import { useAccount, useConnect } from 'wagmi'
+import { useConnect } from 'wagmi'
 import Image from 'next/image'
 
-function Modal({close}) {
-  const { connector: activeConnector, isConnected } = useAccount()
-  const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
+function Modal({close, setWalletAddress}) {
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect({
+    onSuccess(data) {
+      setWalletAddress(data.account)
+    }})
 
   const walletIcons = (walletName) => walletName === "MetaMask" ? "/mm.png" : "/cbw.png";
+
+  const connectWallet = (connector) => {
+    connect({ connector });
+    close();
+  }
 
   return (
     <>  
@@ -27,10 +34,7 @@ function Modal({close}) {
               className={styles.button_modal}
               disabled={!connector.ready}
               key={connector.id}
-              onClick={() => {
-                connect({ connector });
-                close();
-              }}
+              onClick={() => connectWallet(connector)}
             >
               <Image className={styles.image_button} height={50} width={50} src={walletIcons(connector.name)} alt={"Wallet"} />
               <p>{connector.name}</p>

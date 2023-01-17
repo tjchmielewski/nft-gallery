@@ -1,14 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from "../styles/Fetch.module.css";
 import { fetchNFTs, fetchNFTsForCollection } from '../utils/FetchNFT'
 import Modal from './Modal';
+import { useAccount, useDisconnect } from 'wagmi'
 
 function Fetch({setNFTs}) {
+  // Application Hooks
   const [wallet, setWalletAddress] = useState("");
   const [collection, setCollectionAddress] = useState("");
   const [fetchForCollection, setFetchForCollection] = useState(false)
-
   const [isOpen, setOpen] = useState(false);
+  const [connected, setConnected] = useState(false);
+
+  // Wagmi Hooks
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect()
 
   const handleClick = async () => {
     let nfts;
@@ -19,6 +25,20 @@ function Fetch({setNFTs}) {
     }
     setNFTs(nfts);
   }
+
+  const disconnectWallet = () => {
+    disconnect()
+    setWalletAddress('')
+  }
+
+  useEffect(() => {
+    if(address) {
+      setConnected(true);
+      setWalletAddress(address);
+    } else {
+      setConnected(false);
+    }
+  }, [address])
 
   return (
     <>
@@ -47,10 +67,15 @@ function Fetch({setNFTs}) {
           <input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}/>Fetch for collection
         </label>
         <div className={styles.flex}>
-          <button className={styles.button} onClick={() => setOpen(!isOpen)}>Connect Wallet</button>
+          {
+            connected ? 
+              <button className={styles.button} onClick={() => disconnectWallet()}><p>Disconnect</p></button> : 
+              <button className={styles.button} onClick={() => setOpen(!isOpen)}><p>Connect Wallet</p></button>
+          }
+          
           <button className={styles.button} onClick={handleClick}>Fetch NFTs</button>
         </div>
-        {isOpen && <Modal close={() => {setOpen(false)}}/>}
+        {isOpen && <Modal close={() => {setOpen(false)}} setWalletAddress={setWalletAddress}/>}
       </div>
     </>
   )
