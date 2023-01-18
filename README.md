@@ -1,27 +1,27 @@
-# Next.js + Tailwind CSS Example
+# NFT Gallery
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This is a Next.js based NFT gallery that utilizes the Alchemy NFT API for displaying NFTs and Wagmi a collection of React Hooks that makes it easy to "Connect Wallet"
 
-## Deploy your own
+## Getting Started
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+1. Clone the repository: `git clone https://github.com/chefleo/Nft_gallery`
+2. Install dependencies: `npm install` or `yarn install`
+3. Create an account and get an API key from [Alchemy](https://alchemy.daostack.io/)
+4. Create a `.env` file in the root of the project and add the following environment variables:
 
 ```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
+ALCHEMY_API_KEY=YourAlchemyApiKey
 ```
 
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+5. Start the development server: `npm run dev` or `yarn dev`
+6. Open [http://localhost:3000](http://localhost:3000) to view the gallery in the browser.
 
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
+## Deployment
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+This project is set up for deployment to Vercel. Simply connect your repository to Vercel and it will automatically build and deploy the project.
+
+## Built With
+
+- [Next.js](https://nextjs.org/) - A framework for building server-rendered React applications
+- [Alchemy NFT API](https://alchemy.daostack.io/) - An API for interacting with NFTs on the Ethereum blockchain
+- [Wagmi](https://wagmi.sh/) - A collection of React Hooks containing everything you need to working with Ethereum
