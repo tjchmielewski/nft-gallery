@@ -1,5 +1,7 @@
 # NFT Gallery
 
+![presentation](./public/presentation.png)
+
 This is a Next.js based NFT gallery that utilizes the Alchemy NFT API for displaying NFTs and Wagmi a collection of React Hooks that makes it easy to "Connect Wallet"
 
 ## Getting Started
