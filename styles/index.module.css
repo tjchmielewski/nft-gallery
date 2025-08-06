@@ -102,6 +102,17 @@
     column-gap: 0.5rem;
 }
 
+.pageTitle {
+  color: #facc15; /* or whatever fits your yellow accent */
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  font-family: 'Inter', sans-serif;
+}
+
+
+
 @media (min-width: 768px) {
     .gridContainerNFT {
         grid-template-columns: repeat(2, minmax(0, 1fr));

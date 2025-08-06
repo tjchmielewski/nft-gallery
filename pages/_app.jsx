@@ -3,6 +3,7 @@ import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
 import { connectors } from '../utils/Connectors'
 import { publicProvider } from 'wagmi/providers/public'
 
+
 const { provider, webSocketProvider } = configureChains(
   [mainnet],
   [publicProvider()],
