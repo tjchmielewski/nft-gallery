@@ -1,29 +1,62 @@
-import React, {useState, useEffect} from 'react'
-import styles from "../styles/FetchClean.module.css";
-import { fetchNFTs, fetchNFTsForCollection } from '../utils/FetchNFT'
-import Modal from './Modal';
+// components/Fetch.jsx
+import React, { useState, useEffect } from 'react'
+import styles from "../styles/FetchClean.module.css"
+import { fetchAllNetworksNFTs, fetchNFTsForCollection } from '../utils/FetchNFT'
+import Modal from './Modal'
 import { useAccount, useDisconnect } from 'wagmi'
 
-function Fetch({setNFTs}) {
-  // Application Hooks
-  const [wallet, setWalletAddress] = useState("0x8D3ecF2A22122F4E599b1bA868706dFd8CA62Fe5");
-  const [collection, setCollectionAddress] = useState("");
-  const [fetchForCollection, setFetchForCollection] = useState(false)
-  const [isOpen, setOpen] = useState(false);
-  const [connected, setConnected] = useState(false);
+const SHOW_CONTROLS = false // 👈 leave false to hide the inputs/buttons
 
-  // Wagmi Hooks
-  const { address } = useAccount();
+function Fetch({ setNFTs }) {
+  const [wallet, setWalletAddress] = useState("0x8D3ecF2A22122F4E599b1bA868706dFd8CA62Fe5")
+  const [collection, setCollectionAddress] = useState("")
+  const [fetchForCollection, setFetchForCollection] = useState(false)
+  const [isOpen, setOpen] = useState(false)
+  const [connected, setConnected] = useState(false)
+
+  const { address } = useAccount()
   const { disconnect } = useDisconnect()
 
-  const handleClick = async () => {
-    let nfts;
-    if (fetchForCollection) {
-      nfts = await fetchNFTsForCollection(collection)
-    } else {
-      nfts = await fetchNFTs(wallet, collection)
+  // Auto-fetch on mount / when inputs change
+  useEffect(() => {
+    const load = async () => {
+      let nfts
+      if (fetchForCollection && collection) {
+        const [eth, poly] = await Promise.all([
+          fetchNFTsForCollection(collection, 'ethereum'),
+          fetchNFTsForCollection(collection, 'polygon'),
+        ])
+        nfts = [...eth, ...poly]
+      } else {
+        nfts = await fetchAllNetworksNFTs(wallet, collection)
+      }
+      setNFTs(Array.isArray(nfts) ? nfts : []);
     }
-    setNFTs(nfts);
+    load()
+  }, [wallet, collection, fetchForCollection, setNFTs])
+
+  // Only matters if you ever re-enable the controls
+  useEffect(() => {
+    if (address) {
+      setConnected(true)
+      setWalletAddress(address)
+    } else {
+      setConnected(false)
+    }
+  }, [address])
+
+  const handleClick = async () => {
+    let nfts
+    if (fetchForCollection && collection) {
+      const [eth, poly] = await Promise.all([
+        fetchNFTsForCollection(collection, 'ethereum'),
+        fetchNFTsForCollection(collection, 'polygon'),
+      ])
+      nfts = [...eth, ...poly]
+    } else {
+      nfts = await fetchAllNetworksNFTs(wallet, collection)
+    }
+    setNFTs(nfts)
   }
 
   const disconnectWallet = () => {
@@ -31,35 +64,60 @@ function Fetch({setNFTs}) {
     setWalletAddress('')
   }
 
-  useEffect(() => {
-    if(address) {
-      setConnected(true);
-      setWalletAddress(address);
-    } else {
-      setConnected(false);
-    }
-  }, [address])
-  useEffect(() => {
-  const loadNFTs = async () => {
-    const nfts = await fetchNFTs(wallet, collection);
-    setNFTs(nfts);
-  };
-
-  if (wallet && !fetchForCollection) {
-    loadNFTs();
-  }
-}, [wallet, fetchForCollection]);
-
-
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.flex}>
-          
+      {SHOW_CONTROLS && (
+        <div className={styles.container}>
+          <div className={styles.flex}>
+            <div>
+              <p>Wallet address</p>
+              <input
+                disabled={fetchForCollection}
+                onChange={(e) => setWalletAddress(e.target.value)}
+                value={wallet}
+                type="text"
+                placeholder="Add your wallet address"
+              />
+            </div>
+
+            <div>
+              <p>Collection address</p>
+              <input
+                onChange={(e) => setCollectionAddress(e.target.value)}
+                value={collection}
+                type="text"
+                placeholder="Add the collection address"
+              />
+            </div>
+          </div>
+
+          <label>
+            <input
+              onChange={(e) => setFetchForCollection(e.target.checked)}
+              type="checkbox"
+            />
+            Fetch for collection
+          </label>
+
+          <div className={styles.flex}>
+            {connected ? (
+              <button className={styles.button} onClick={disconnectWallet}>
+                <p>Disconnect</p>
+              </button>
+            ) : (
+              <button className={styles.button} onClick={() => setOpen(!isOpen)}>
+                <p>Connect Wallet</p>
+              </button>
+            )}
+
+            <button className={styles.button} onClick={handleClick}>Fetch NFTs</button>
+          </div>
+
+          {isOpen && (
+            <Modal close={() => setOpen(false)} setWalletAddress={setWalletAddress} />
+          )}
         </div>
-      
-        {isOpen && <Modal close={() => {setOpen(false)}} setWalletAddress={setWalletAddress}/>}
-      </div>
+      )}
     </>
   )
 }

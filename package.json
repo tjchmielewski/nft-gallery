@@ -4,6 +4,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "export": "next export",
     "test": "jest"
   },
   "dependencies": {
@@ -11,12 +12,15 @@
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@wagmi/core": "^0.8.14",
+    "aes-js": "^3.1.2",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "next": "^15.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
+    "rxjs": "^7.8.2",
+    "tslib": "^2.8.1",
     "wagmi": "^0.10.10"
   },
   "devDependencies": {
